@@ -5,9 +5,9 @@
 function compile()
 
 % set the values
-opts.opencv_include_path    =   'D:\Research\Library\opencv3.0\build\include'; % OpenCV include path
-opts.opencv_lib_path        =   'D:\Research\Library\opencv3.0\build\x64\vc12\lib'; % OpenCV lib path
-opts.clean                  =   false; % clean mode
+opts.opencv_include_path    =   '/usr/include/'; % OpenCV include path
+opts.opencv_lib_path        =   '/usr/lib64/'; % OpenCV lib path
+opts.clean                  =   0; % clean mode
 opts.dryrun                 =   false; % dry run mode
 opts.verbose                =   1; % output verbosity
 opts.debug                  =   false; % enable debug symbols in MEX-files
@@ -23,7 +23,7 @@ if opts.clean
     if opts.verbose > 0, disp(cmd); end
     if ~opts.dryrun, delete(cmd); end
 
-    cmd = fullfile('*.obj');
+    cmd = fullfile('*.o');
     if opts.verbose > 0, disp(cmd); end
     if ~opts.dryrun, delete(cmd); end
 
@@ -61,7 +61,7 @@ if ~opts.dryrun, eval(cmd); end
 src = {'calcIIF.cpp'};
 % Compile the mex file
 for i = 1:numel(src)
-    obj = 'MxArray.obj';
+    obj = 'MxArray.o';
     cmd = sprintf('mex %s %s %s', mex_flags, src{i}, obj);
     if opts.verbose > 0, disp(cmd); end
     if ~opts.dryrun, eval(cmd); end
@@ -95,8 +95,10 @@ end
 
 function l = lib_names(L_path)
     %LIB_NAMES  return library names
-    d = dir( fullfile(L_path,'opencv_*.lib') );
+%d = dir( fullfile(L_path,'opencv_*.lib') );
 %     l = regexp({d.name}, '(opencv_core.+)\.lib|(opencv_imgproc.+)\.lib|(opencv_highgui.+)\.lib', 'tokens', 'once');
-    l = regexp({d.name}, '(opencv_ts.+)\.lib|(opencv_world.+)\.lib', 'tokens', 'once');
+%l = regexp({d.name}, '(opencv_ts.+)\.lib|(opencv_world.+)\.lib',
+%'tokens', 'once');
+    l = {{'opencv_core'},{'opencv_imgproc'},{'opencv_highgui'}};
     l = [l{:}];
 end
