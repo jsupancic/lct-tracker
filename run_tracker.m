@@ -9,7 +9,7 @@
 %  detector learning
 
 
-function [precision, fps] = run_tracker(video, show_visualization, show_plots)
+function [precision, fps, k_bbs] = run_tracker(video, show_visualization, show_plots)
 
     addpath('utility');
     addpath('detector');
@@ -101,7 +101,7 @@ function [precision, fps] = run_tracker(video, show_visualization, show_plots)
 		
         
 		%call tracker function with all the relevant parameters
-		[positions, time] = tracker_lct(video_path, img_files, pos, target_sz, config, show_visualization);
+		[positions, time, k_bbs] = tracker_lct(video_path, img_files, pos, target_sz, config, show_visualization);
 		
 		
 		%calculate and show precision plot, as well as frames-per-second

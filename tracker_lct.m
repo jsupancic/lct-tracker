@@ -1,4 +1,4 @@
-function [positions, time] = tracker_lct(video_path, img_files, pos, target_sz, config, show_visualization)
+function [positions, time, k_bbs] = tracker_lct(video_path, img_files, pos, target_sz, config, show_visualization)
 %
 %   It is meant to be called by the interface function RUN_TRACKER, which
 %   sets up the parameters and loads the video information.
@@ -34,8 +34,9 @@ function [positions, time] = tracker_lct(video_path, img_files, pos, target_sz, 
         update_visualization = show_video(img_files, video_path, resize_image);
     end	
 
-	time = 0;  %to calculate FPS
-	positions = zeros(numel(img_files), 2);  %to calculate precision
+    time = 0;  %to calculate FPS
+    positions = zeros(numel(img_files), 2);  %to calculate precision
+    k_bbs = zeros(numel(img_files), 4);
     
     svm_struct=[];
     
@@ -177,16 +178,18 @@ function [positions, time] = tracker_lct(video_path, img_files, pos, target_sz, 
                 svm_struct=det_learn(im, pos, window_sz, config.detc, svm_struct);
             end
         end
-            
-		%save position and timing
-		positions(frame,:) = pos;
-		time = time + toc();
 
-		%visualization
+        %visualization
         target_sz_s=target_sz*currentScaleFactor;
+                
+        %save position and timing
+        box = [pos([2,1]) - target_sz_s([2,1])/2, target_sz_s([2,1])];
+        k_bbs(frame,:) = ...
+            [box(1), box(2), box(1) + box(3), box(2) + box(4)];
+        positions(frame,:) = pos;
+        time = time + toc();
         
-        if show_visualization,
-            box = [pos([2,1]) - target_sz_s([2,1])/2, target_sz_s([2,1])];
+        if show_visualization,            
             stop = update_visualization(frame, box);
             if stop, break; end  %user pressed Esc, stop early
 
