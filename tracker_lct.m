@@ -76,6 +76,7 @@ function [positions, time, k_bbs] = tracker_lct(video_path, img_files, pos, targ
 %     max_scale_factor = scale_step ^ floor(log(min([size(im,1) size(im,2)] ./ base_target_sz)) / log(scale_step));
     
 	for frame = 1:numel(img_files),
+            fprintf('frame %d of %d\n',frame,numel(img_files));
 		%load image
 		im = imread([video_path img_files{frame}]);
 		

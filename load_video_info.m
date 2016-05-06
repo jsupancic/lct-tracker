@@ -52,7 +52,7 @@ function [img_files, pos, target_sz, ground_truth, video_path] = load_video_info
 	
 	
 	%from now on, work in the subfolder where all the images are
-	video_path = [video_path 'img/'];
+	video_path = [video_path '/'];
 	
 	%for these sequences, we must limit ourselves to a range of frames.
 	%for all others, we just load all png/jpg files in the folder.
