@@ -16,7 +16,7 @@ function [precision, fps] = run_tracker(video, show_visualization, show_plots)
     addpath('scale');
     
 	%path to the videos (you'll be able to choose one with the GUI).
-	base_path = 'D:/dataset/Benchmark/';
+	base_path = '~/workspace/data/tracking/';
 	%default settings
 	if nargin < 1, video = 'choose'; end
 	if nargin < 2, show_visualization = ~strcmp(video, 'all'); end
