@@ -101,7 +101,7 @@ function [precision, fps, k_bbs] = run_tracker(video, show_visualization, show_p
 		
         
 		%call tracker function with all the relevant parameters
-		k_bbs = tracker_lct(video_path, img_files, pos, target_sz, config, show_visualization);        
+		[~,~,k_bbs] = tracker_lct(video_path, img_files, pos, target_sz, config, show_visualization);        
                 precision = nan;
                 fps = nan;
     end
