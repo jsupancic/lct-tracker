@@ -77,9 +77,13 @@ function [positions, time, k_bbs] = tracker_lct(video_path, img_files, pos, targ
     
 	for frame = 1:numel(img_files),
             fprintf('processing frame %d of %d\n',frame,numel(img_files));
-		%load image
-		im = imread([video_path img_files{frame}]);
-		
+            %load image
+            try
+                im = imread([video_path img_files{frame}]);
+            catch e
+                break;
+            end
+                
         if size(im,3) > 1, 
             im_gray = rgb2gray(im); 
         else
